@@ -1,6 +1,3 @@
-
-# Please find and replace all instances of `evmos` with your project name.
-
 ## Profile Set Up
 
 #### Use the following within profiles.yml 
