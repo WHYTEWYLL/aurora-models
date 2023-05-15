@@ -2,10 +2,6 @@ version: 2
 models:
   - name: core__fact_validators
     description: Information about all active and inactive set validators on Evmos. 
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - UNIQUE_KEY
     columns:
       - name: ADDRESS
         description: "{{ doc('address') }}"

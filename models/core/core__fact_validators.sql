@@ -17,7 +17,6 @@ SELECT
     max_rate,
     min_self_delegation,
     RANK,
-    raw_metadata,
-    unique_key
+    raw_metadata
 FROM
     {{ ref('silver__validators') }}
