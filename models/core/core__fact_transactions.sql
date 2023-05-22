@@ -58,8 +58,7 @@ SELECT
     ) AS fee,
     gas_used,
     gas_wanted,
-    tx_code,
-    tx_type,
+    tx_code
     msgs
 FROM
     {{ ref('silver__transactions') }}
