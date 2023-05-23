@@ -1,10 +1,10 @@
 {% docs __overview__ %}
 
-# Welcome to the Flipside Crypto EVMOS Models Documentation
+# Welcome to the Flipside Crypto xyz Models Documentation
 
 ## **What does this documentation cover?**
-The documentation included here details the design of the evmos
- tables and views available via [Flipside Crypto.](https://flipsidecrypto.xyz/) For more information on how these models are built, please see [the github repository.](https://github.com/flipsideCrypto/evmos-models/)
+The documentation included here details the design of the xyz
+ tables and views available via [Flipside Crypto.](https://flipsidecrypto.xyz/) For more information on how these models are built, please see [the github repository.](https://github.com/flipsideCrypto/xyz-models/)
 
 ## **How do I use these docs?**
 The easiest way to navigate this documentation is to use the Quick Links below. These links will take you to the documentation for each table, which contains a description, a list of the columns, and other helpful information.
@@ -17,7 +17,7 @@ There is more information on how to use dbt docs in the last section of this doc
 
 **Click on the links below to jump to the documentation for each schema.**
 
-### Core Tables (`evmos`.`CORE`.`<table_name>`)
+### Core Tables (`xyz`.`CORE`.`<table_name>`)
 
 **Dimension Tables:**
 
@@ -33,7 +33,8 @@ There is more information on how to use dbt docs in the last section of this doc
 
 ## **Data Model Overview**
 
-The evmos models are built a few different ways, but the core fact tables are built using three layers of sql models: **bronze, silver, and gold (or core).**
+The xyz
+ models are built a few different ways, but the core fact tables are built using three layers of sql models: **bronze, silver, and gold (or core).**
 
 - Bronze: Data is loaded in from the source as a view
 - Silver: All necessary parsing, filtering, de-duping, and other transformations are done here
@@ -67,7 +68,7 @@ Note that you can also right-click on models to interactively filter and explore
 - [Flipside](https://flipsidecrypto.xyz/)
 - [Velocity](https://app.flipsidecrypto.com/velocity?nav=Discover)
 - [Tutorials](https://docs.flipsidecrypto.com/our-data/tutorials)
-- [Github](https://github.com/FlipsideCrypto/evmos-models)
+- [Github](https://github.com/FlipsideCrypto/xyz-models)
 - [What is dbt?](https://docs.getdbt.com/docs/introduction)
 
 {% enddocs %}
