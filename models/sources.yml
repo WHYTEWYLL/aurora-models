@@ -9,9 +9,9 @@ sources:
       - name: address_tags
       - name: dim_dates
   - name: bronze_streamline
-    database: streamline
-    schema: |
+    database: |
       {{ "AURORA_DEV" if var("STREAMLINE_USE_DEV_FOR_EXTERNAL_TABLES", False) else "AURORA" }}
+    schema: streamline
     tables:
       - name: blocks
       - name: transactions

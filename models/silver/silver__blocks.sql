@@ -11,8 +11,6 @@ SELECT
     utils.udf_hex_to_int(
         DATA :result :timestamp :: STRING
     ) :: TIMESTAMP AS block_timestamp,
-    -- network
-    -- blockchain
     ARRAY_SIZE(
         DATA :result :transactions
     ) AS tx_count,
