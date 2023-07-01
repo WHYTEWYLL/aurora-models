@@ -15,4 +15,11 @@ sources:
     tables:
       - name: blocks
       - name: transactions
+      - name: receipts
+
+  - name: streamline
+    database: streamline
+    schema: |
+      {{ "AURORA_DEV" if var("STREAMLINE_USE_DEV_FOR_EXTERNAL_TABLES", False) else "AURORA" }}
+    tables:
       - name: tx_receipts
