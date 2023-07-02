@@ -76,11 +76,7 @@ WHERE
         FROM
             TABLE(
                 information_schema.external_table_file_registration_history(
-<<<<<<< HEAD
-                    start_time => DATEADD('day', -3, CURRENT_TIMESTAMP()),
-=======
                     start_time => DATEADD('day', -7, CURRENT_TIMESTAMP()),
->>>>>>> main
                     table_name => '{{ source( "bronze_streamline", model) }}')
                 ) A
             )
