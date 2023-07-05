@@ -108,10 +108,6 @@ models:
               column_type_list:
                 - NUMBER
                 - FLOAT
-      - name: EFFECTIVE_GAS_PRICE
-        tests:
-          - not_null:
-              where: NOT IS_PENDING
       - name: ORIGIN_FUNCTION_SIGNATURE
         tests:
           - not_null

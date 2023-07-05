@@ -1,6 +1,6 @@
 version: 2
 models:
-  - name: core__fact_event_logs
+  - name: core__fact_logs
     description: '{{ doc("logs_table_doc") }}'
 
     columns:
@@ -9,7 +9,7 @@ models:
       - name: BLOCK_TIMESTAMP
         description: '{{ doc("block_timestamp") }}'
       - name: TX_HASH
-        description: '{{ doc("logs_tx_hash") }}'
+        description: '{{ doc("tx_hash") }}'
       - name: EVENT_INDEX
         description: '{{ doc("event_index") }}'
       - name: CONTRACT_ADDRESS
@@ -21,12 +21,12 @@ models:
       - name: EVENT_REMOVED
         description: '{{ doc("event_removed") }}'
       - name: _LOG_ID
-        description: '{{ doc("log_id_events") }}'
+        description: '{{ doc("id_events") }}'
       - name: TX_STATUS
         description: '{{ doc("tx_status") }}'
       - name: ORIGIN_FUNCTION_SIGNATURE
         description: '{{ doc("nft_origin_sig") }}'
       - name: ORIGIN_FROM_ADDRESS
-        description: '{{ doc("origin_from") }}'
+        description: "The from address at the transaction level."
       - name: ORIGIN_TO_ADDRESS
-        description: '{{ doc("origin_to") }}'
+        description: "The to address at the transaction level."

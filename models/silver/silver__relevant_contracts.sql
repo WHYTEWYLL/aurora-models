@@ -5,7 +5,7 @@
 
 SELECT
     contract_address,
-    'ethereum' AS blockchain,
+    'Aurora' AS blockchain,
     COUNT(*) AS events,
     MAX(block_number) AS latest_block
 FROM
