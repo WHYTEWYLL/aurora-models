@@ -14,7 +14,7 @@ WITH base AS (
         DATA,
         _inserted_timestamp
     FROM
-    {{ ref('bronze__streamline_receipts') }}
+    {{ ref('bronze__streamline_tx_receipts') }}
 ),
 FINAL AS (
     SELECT
