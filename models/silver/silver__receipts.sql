@@ -4,7 +4,7 @@
     incremental_strategy = 'delete+insert',
     unique_key = "block_number",
     cluster_by = "ROUND(block_number, -3)",
-    full_refresh = true,
+    full_refresh = false,
     tags = ['core']
 ) }}
 
