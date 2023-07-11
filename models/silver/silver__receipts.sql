@@ -4,7 +4,6 @@
     incremental_strategy = 'delete+insert',
     unique_key = "block_number",
     cluster_by = "ROUND(block_number, -3)",
-    post_hook = "ALTER TABLE {{ this }} ADD SEARCH OPTIMIZATION on equality(tx_hash)",
     full_refresh = false,
     tags = ['core']
 ) }}
@@ -12,7 +11,7 @@
 WITH base AS (
     SELECT
         block_number,
-        DATA,
+        DATA:result AS DATA,
         _inserted_timestamp
     FROM
 {% if is_incremental() %}
@@ -37,11 +36,10 @@ WHERE
 ),
 FINAL AS (
     SELECT
-        block_number,
         DATA :blockHash :: STRING AS block_hash,
         utils.udf_hex_to_int(
             DATA :blockNumber :: STRING
-        ) :: INT AS blockNumber,
+        ) :: INT AS block_number,
         utils.udf_hex_to_int(
             DATA :cumulativeGasUsed :: STRING
         ) :: INT AS cumulative_gas_used,
