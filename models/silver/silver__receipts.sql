@@ -8,16 +8,14 @@
     tags = ['core']
 ) }}
 
-
 WITH base AS (
     SELECT
         block_number,
         DATA,
         _inserted_timestamp
-    FROM
-    
+
 {% if is_incremental() %}
-{{ ref('bronze__streamline_receipts') }}
+{{ ref('bronze__streamline_tx_receipts') }}
 WHERE
     _inserted_timestamp >= (
         SELECT
@@ -29,14 +27,13 @@ WHERE
         DATA
     )
 {% else %}
-    {{ ref('bronze__streamline_FR_receipts') }}
+    {{ ref('bronze__streamline_FR_tx_receipts') }}
 WHERE
     IS_OBJECT(
         DATA
     )
 {% endif %}
 ),
-
 FINAL AS (
     SELECT
         block_number,
