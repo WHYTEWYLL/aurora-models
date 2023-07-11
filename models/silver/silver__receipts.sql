@@ -1,3 +1,4 @@
+-- depends_on: {{ ref('bronze__streamline_tx_receipts') }}
 {{ config(
     materialized = 'incremental',
     incremental_strategy = 'delete+insert',
@@ -13,7 +14,7 @@ WITH base AS (
         block_number,
         DATA,
         _inserted_timestamp
-
+    FROM
 {% if is_incremental() %}
 {{ ref('bronze__streamline_tx_receipts') }}
 WHERE
