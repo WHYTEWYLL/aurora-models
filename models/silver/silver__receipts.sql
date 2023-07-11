@@ -4,7 +4,7 @@
     incremental_strategy = 'delete+insert',
     unique_key = "block_number",
     cluster_by = "ROUND(block_number, -3)",
-    full_refresh = false,
+    full_refresh = true,
     tags = ['core']
 ) }}
 
@@ -36,11 +36,10 @@ WHERE
 ),
 FINAL AS (
     SELECT
-        block_number,
         DATA :blockHash :: STRING AS block_hash,
         utils.udf_hex_to_int(
             DATA :blockNumber :: STRING
-        ) :: INT AS blockNumber,
+        ) :: INT AS block_number,
         utils.udf_hex_to_int(
             DATA :cumulativeGasUsed :: STRING
         ) :: INT AS cumulative_gas_used,
