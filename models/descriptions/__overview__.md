@@ -23,10 +23,10 @@ There is more information on how to use dbt docs in the last section of this doc
 
 **Fact Tables:**
 
-- [fact_blocks]()
-- [fact_transactions]()
-- [fact_logs]()
-- [fact_receipts]()
+- [fact_blocks](#!/model/model.aurora.core__fact_blocks)
+- [fact_transactions](#!/model/model.aurora.core__fact_transactions)
+- [fact_logs](#!/model/model.aurora.core__fact_logs)
+- [fact_receipts](#!/model/model.aurora.core__fact_receipts)
 
 ## **Data Model Overview**
 
@@ -38,7 +38,7 @@ The Aurora models are built a few different ways, but the core fact tables are b
 
 The dimension tables are sourced from a variety of on-chain and off-chain sources.
 
-Convenience views (denoted ez\_) are a combination of different fact and dimension tables. These views are built to make it easier to query the data.
+Convenience views (denoted `ez_`) are a combination of different fact and dimension tables. These views are built to make it easier to query the data.
 
 ## **Using dbt docs**
 
