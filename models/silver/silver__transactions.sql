@@ -114,9 +114,9 @@ new_records AS (
         t.type,
         t.v,
         t.value,
-        block_timestamp,
+        b.block_timestamp,
         CASE
-            WHEN block_timestamp IS NULL
+            WHEN b.block_timestamp IS NULL
             OR tx_status IS NULL THEN TRUE
             ELSE FALSE
         END AS is_pending,
