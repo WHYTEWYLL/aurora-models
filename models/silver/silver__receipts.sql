@@ -39,16 +39,16 @@ blocks AS (
         *
     FROM
     {{ ref('silver__blocks') }}
-)
+),
 
 FINAL AS (
     SELECT
-        block_number,
+        b.block_number,
         blocks.block_timestamp,
         DATA :blockHash :: STRING AS block_hash,
         utils.udf_hex_to_int(
             DATA :blockNumber :: STRING
-        ) :: INT AS block_number,
+        ) :: INT AS blockNumber,
         utils.udf_hex_to_int(
             DATA :cumulativeGasUsed :: STRING
         ) :: INT AS cumulative_gas_used,
@@ -83,7 +83,7 @@ FINAL AS (
         ) :: INT AS TYPE,
         DATA :nearReceiptHash :: STRING AS near_receipt_hash,
         DATA :nearTransactionHash :: STRING AS near_transaction_hash,
-        _inserted_timestamp
+        b._inserted_timestamp
     FROM
         base b
     LEFT JOIN blocks
