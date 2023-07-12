@@ -96,6 +96,7 @@ base_tx AS (
 new_records AS (
     SELECT
         t.block_number,
+        t.blockNumber,
         t.block_hash,
         t.from_address,
         t.gas,
@@ -157,6 +158,7 @@ AND r._INSERTED_TIMESTAMP >= (
 missing_data AS (
     SELECT
         t.block_number,
+        t.blockNumber,
         t.block_hash,
         t.from_address,
         t.gas,
@@ -210,6 +212,7 @@ missing_data AS (
 FINAL AS (
     SELECT
         block_number,
+        blockNumber,
         block_hash,
         from_address,
         gas,
@@ -244,6 +247,7 @@ FINAL AS (
 UNION
 SELECT
     block_number,
+    blockNumber,
     block_hash,
     from_address,
     gas,
@@ -278,6 +282,7 @@ FROM
 SELECT
     *
 FROM
-    FINAL qualify(ROW_NUMBER() over (PARTITION BY block_number, POSITION
+    FINAL qualify(ROW_NUMBER() over (PARTITION BY block_number, tx_hash
 ORDER BY
     _inserted_timestamp DESC, is_pending ASC)) = 1
+
