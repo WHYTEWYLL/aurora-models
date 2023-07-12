@@ -7,6 +7,7 @@
 
 SELECT
     block_number,
+    block_timestamp,
     block_hash,
     cumulative_gas_used,
     from_address,

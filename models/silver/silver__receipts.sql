@@ -33,8 +33,17 @@ WHERE
     )
 {% endif %}
 ),
+
+blocks AS (
+    SELECT 
+        *
+    FROM
+    {{ ref('silver__blocks') }}
+),
+
 FINAL AS (
     SELECT
+        blocks.block_timestamp,
         DATA :blockHash :: STRING AS block_hash,
         utils.udf_hex_to_int(
             DATA :blockNumber :: STRING
@@ -73,9 +82,11 @@ FINAL AS (
         ) :: INT AS TYPE,
         DATA :nearReceiptHash :: STRING AS near_receipt_hash,
         DATA :nearTransactionHash :: STRING AS near_transaction_hash,
-        _inserted_timestamp
+        b._inserted_timestamp
     FROM
-        base
+        base b
+    LEFT JOIN blocks
+        ON blocks.block_number = b.block_number
 )
 
 SELECT

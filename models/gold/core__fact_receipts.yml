@@ -6,6 +6,8 @@ models:
     columns:
       - name: BLOCK_NUMBER
         description: '{{ doc("block_number") }}'
+      - name: BLOCK_TIMESTAMP
+        description: '{{ doc("block_timestamp") }}'
       - name: BLOCK_HASH
         description: '{{ doc("blocks_hash") }}'
       - name: CUMULATIVE_GAS_USED
