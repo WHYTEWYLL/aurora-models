@@ -44,7 +44,7 @@ base_tx AS (
         ) :: INT AS gas,
         utils.udf_hex_to_int(
             A.data :gasPrice :: STRING
-        ) :: INT / pow(
+        ) :: FLOAT / pow(
             10,
             9
         ) AS gas_price,
@@ -57,13 +57,13 @@ base_tx AS (
         ) AS origin_function_signature,
         COALESCE(utils.udf_hex_to_int(
             A.data :maxFeePerGas :: STRING
-        ) :: INT / pow(
+        ) :: FLOAT / pow(
             10,
             9
         ), 0)  AS max_fee_per_gas,
         COALESCE( utils.udf_hex_to_int(
             A.data :maxPriorityFeePerGas :: STRING
-        ) :: INT / pow(
+        ) :: FLOAT / pow(
             10,
             9
         ), 0) AS max_priority_fee_per_gas,
