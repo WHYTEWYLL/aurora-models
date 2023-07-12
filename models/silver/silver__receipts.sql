@@ -94,6 +94,6 @@ SELECT
 FROM
     FINAL
 WHERE
-    tx_hash IS NOT NULL qualify(ROW_NUMBER() over (PARTITION BY block_number, POSITION
+    tx_hash IS NOT NULL qualify(ROW_NUMBER() over (PARTITION BY block_number
 ORDER BY
     _inserted_timestamp DESC)) = 1
