@@ -80,7 +80,7 @@ def create_message(**kwargs):
                         "type": "button",
                         "text": "View the full run results",
                         "style": "primary",
-                        "url": "https://github.com/FlipsideCrypto/aurora-models/actions/workflows/",
+                        "url": "https://github.com/FlipsideCrypto/aurora-models/actions/",
                         "confirm": {
                             "title": "I haven't figured this part out yet",
                             "text": "I'm not sure how to get the run id from the workflow run, see all tests by clicking Ok",
