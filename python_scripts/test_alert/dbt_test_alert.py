@@ -47,7 +47,7 @@ def log_test_result():
 
 def create_message(**kwargs):
     messageBody = {
-        "text": f"Hey{' <@U037AH6DS8P>' if len(kwargs['messages']['fail']) > 0 else ''}, new DBT test results for :{os.environ.get('DATABASE').split('_DEV')[0]}: {os.environ.get('DATABASE')}",
+        "text": f"Hey{' @here' if len(kwargs['messages']['fail']) > 0 else ''}, new DBT test results for :{os.environ.get('DATABASE').split('_DEV')[0]}: {os.environ.get('DATABASE')}",
         "attachments": [
             {
                 "color": kwargs["color"],
@@ -80,7 +80,7 @@ def create_message(**kwargs):
                         "type": "button",
                         "text": "View the full run results",
                         "style": "primary",
-                        "url": "https://github.com/FlipsideCrypto/aurora-models/actions/workflows/",
+                        "url": "https://github.com/FlipsideCrypto/aurora-models/actions/",
                         "confirm": {
                             "title": "I haven't figured this part out yet",
                             "text": "I'm not sure how to get the run id from the workflow run, see all tests by clicking Ok",
