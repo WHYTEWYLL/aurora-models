@@ -2,7 +2,7 @@
 {{ config(
     materialized = 'incremental',
     incremental_strategy = 'delete+insert',
-    unique_key = "block_number",
+    unique_key = "receipts_id",
     cluster_by = "ROUND(block_number, -3)",
     tags = ['core']
 ) }}
@@ -91,6 +91,7 @@ FINAL AS (
 )
 
 SELECT
+    {{ dbt_utils.generate_surrogate_key(['BLOCK_NUMBER', 'TX_HASH']) }} AS receipts_id,
     *
 FROM
     FINAL
