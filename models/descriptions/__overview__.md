@@ -28,6 +28,15 @@ There is more information on how to use dbt docs in the last section of this doc
 - [fact_logs](#!/model/model.aurora.core__fact_logs)
 - [fact_receipts](#!/model/model.aurora.core__fact_receipts)
 
+
+## **⚠️ Aurora Data Notes and Known Issues**
+Update: July 20, 2023:  
+In onboarding Aurora data, our team has encountered several issues with data returned from the node. These are primarily associated with transactions that are either reverted or cancelled. At present, the node returns these transactions across multiple blocks and in different positions within the block at each time. This is uncommon, as the position should be constant. We may see pending transactions within a block on other EVMs, but on re-request the transaction would be finalized. These seem to be persistent across multiple blocks, even in subsequent requests.  
+
+At present, these transactions are included in our data. They will have `null` fields like status, fee, and others that are typically derived from receipts. These transactions do not have receipts, so we can identify them through their lack of receipt data.  
+
+Flipside is working closely with Near and Aurora to determine how this data should best be presented.  
+
 ## **Data Model Overview**
 
 The Aurora models are built a few different ways, but the core fact tables are built using three layers of sql models: **bronze, silver, and gold (or core).**
