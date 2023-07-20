@@ -43,7 +43,7 @@ models:
       - name: MAX_PRIORITY_FEE_PER_GAS
         description: The maximum priority fee per gas of the transaction, in wei.
       - name: TX_TYPE
-        description: The type of the transaction
+        description: '{{ doc("tx_type") }}'
       - name: r
         description: The r value of the transaction signature.
       - name: s
