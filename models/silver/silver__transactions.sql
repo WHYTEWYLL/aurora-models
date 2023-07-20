@@ -246,7 +246,6 @@ FINAL AS (
 {% if is_incremental() %}
 UNION
 SELECT
-    {{ dbt_utils.generate_surrogate_key(['BLOCK_NUMBER', 'TX_HASH', 'POSITION']) }} AS tx_id,
     block_number,
     blockNumber,
     block_hash,
@@ -281,6 +280,7 @@ FROM
 {% endif %}
 )
 SELECT
+    {{ dbt_utils.generate_surrogate_key(['BLOCK_NUMBER', 'TX_HASH', 'POSITION']) }} AS tx_id,
     *
 FROM
     FINAL qualify(ROW_NUMBER() over (PARTITION BY block_number, tx_hash
