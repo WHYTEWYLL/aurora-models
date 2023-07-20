@@ -28,6 +28,13 @@ SELECT
     r,
     s,
     v,
-    tx_type    
+    tx_type
 FROM
     {{ ref('silver__transactions') }}
+WHERE
+    block_number >= (
+        SELECT
+            min(block_number)
+        FROM
+            {{ ref('silver__receipts') }}
+    )
