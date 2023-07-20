@@ -2,7 +2,7 @@
 {{ config(
     materialized = 'incremental',
     incremental_strategy = 'delete+insert',
-    unique_key = "block_number",
+    unique_key = "tx_id",
     cluster_by = "block_timestamp::date, _inserted_timestamp::date",
     tags = ['core']
 ) }}
@@ -246,6 +246,7 @@ FINAL AS (
 {% if is_incremental() %}
 UNION
 SELECT
+    {{ dbt_utils.generate_surrogate_key(['BLOCK_NUMBER', 'TX_HASH', 'POSITION']) }} AS tx_id,
     block_number,
     blockNumber,
     block_hash,
