@@ -47,3 +47,10 @@ SELECT
     tx_hash AS params
 FROM
     tbl
+UNION 
+SELECT
+    block_number,
+    'eth_getTransactionReceipt' AS method,
+    tx_hash AS params
+FROM
+    {{ ref("_pending_status") }}
