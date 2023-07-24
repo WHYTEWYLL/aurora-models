@@ -7,7 +7,8 @@
  WITH pending_tx AS (
 
     SELECT
-        DISTINCT(block_number)
+        DISTINCT(block_number),
+        tx_hash
     FROM
         {{ ref('silver__transactions') }}
     WHERE
