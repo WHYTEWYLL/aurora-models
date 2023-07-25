@@ -6,7 +6,6 @@
     )
 ) }}
 
-
 WITH last_3_days AS ({% if var('STREAMLINE_RUN_HISTORY') %}
 
     SELECT
@@ -15,14 +14,25 @@ WITH last_3_days AS ({% if var('STREAMLINE_RUN_HISTORY') %}
     SELECT
         MAX(block_number) - 10000 AS block_number --aprox 3 days
     FROM
-        {{ ref("streamline__complete_transactions") }}
+        {{ ref("streamline__complete_blocks") }}
     {% endif %}),
+    flattened_tbl AS (
+        SELECT
+            block_number,
+            VALUE :: STRING AS tx_hash
+        FROM
+            {{ ref("streamline__complete_blocks") }},
+            LATERAL FLATTEN(
+                input => transactions
+            )
+        WHERE transactions IS NOT NULL
+    ),
     tbl AS (
         SELECT
             block_number,
             tx_hash
         FROM
-            {{ ref("streamline__complete_transactions") }}
+            flattened_tbl
         WHERE
             (
                 block_number >= (

@@ -9,7 +9,8 @@
 SELECT
     id,
     block_number,
-    _inserted_timestamp
+    _inserted_timestamp,
+    data:result:transactions AS transactions
 FROM
 
 {% if is_incremental() %}
