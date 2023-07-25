@@ -55,7 +55,7 @@ FROM
     tbl
 UNION
 SELECT
-    block_number,
+    DISTINCT(block_number),
     'eth_getBlockByNumber' AS method,
     CONCAT(
         block_number_hex,
