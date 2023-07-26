@@ -7,7 +7,7 @@
  WITH pending_tx AS (
 
     SELECT
-        DISTINCT(block_number),
+        block_number,
         tx_hash
     FROM
         {{ ref('silver__transactions') }}
@@ -21,7 +21,7 @@
 
 )
 
-select 
+select
     block_number,
     REPLACE(
         concat_ws('', '0x', to_char(block_number, 'XXXXXXXX')),
