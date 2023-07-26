@@ -12,12 +12,7 @@
     FROM
         {{ ref('silver__transactions') }}
     WHERE
-        _inserted_timestamp >= DATEADD(
-            'day',
-            -7,
-            CURRENT_DATE
-        )
-        AND IS_PENDING = 'TRUE'
+        IS_PENDING = 'TRUE'
 
 )
 
