@@ -53,3 +53,14 @@ SELECT
     ) AS params
 FROM
     tbl
+UNION
+SELECT
+    DISTINCT(block_number) AS block_number,
+    'eth_getBlockByNumber' AS method,
+    CONCAT(
+        block_number_hex,
+        '_-_',
+        'false'
+    ) AS params
+FROM
+    {{ ref("_pending_status") }}
