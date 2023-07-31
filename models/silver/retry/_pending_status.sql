@@ -2,9 +2,7 @@
     materialized = "ephemeral"
 ) }}
 
-
-
- WITH pending_tx AS (
+WITH pending_tx AS (
 
     SELECT
         block_number,
@@ -12,11 +10,10 @@
     FROM
         {{ ref('silver__transactions') }}
     WHERE
-        IS_PENDING = 'TRUE'
-
+        block_timestamp :: DATE = CURRENT_DATE() - 3
+        AND is_pending = 'TRUE'
 )
-
-select
+SELECT
     block_number,
     REPLACE(
         concat_ws('', '0x', to_char(block_number, 'XXXXXXXX')),
@@ -24,4 +21,5 @@ select
         ''
     ) AS block_number_hex,
     tx_hash
-from  pending_tx
+FROM
+    pending_tx
