@@ -16,13 +16,12 @@ FROM
 {% if is_incremental() %}
 {{ ref('bronze__streamline_transactions') }}
 WHERE
-    _inserted_timestamp >= '2023-08-01 18:44:00.000' :: timestamp_ntz
-    {# (
+    _inserted_timestamp >= (
         SELECT
             MAX(_inserted_timestamp) _inserted_timestamp
         FROM
             {{ this }}
-    ) #}
+    )
 {% else %}
     {{ ref('bronze__streamline_FR_transactions') }}
 {% endif %}
