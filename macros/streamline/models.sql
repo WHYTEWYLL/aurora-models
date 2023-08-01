@@ -76,7 +76,7 @@ WHERE
         FROM
             TABLE(
                 information_schema.external_table_file_registration_history(
-                    start_time => CURRENT_TIMESTAMP,
+                    start_time => '2023-08-01 18:44:00.000'::TIMESTAMP_NTZ,
                     table_name => '{{ source( "bronze_streamline", model) }}')
                 ) A
             )
