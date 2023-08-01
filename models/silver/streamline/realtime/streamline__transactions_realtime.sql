@@ -42,6 +42,16 @@ WITH last_3_days AS ({% if var('STREAMLINE_RUN_HISTORY') %}
             ) AS block_number_hex
         FROM
             {{ ref("streamline__complete_blocks") }}
+        WHERE
+            (
+                block_number >= (
+                    SELECT
+                        block_number
+                    FROM
+                        last_3_days
+                )
+            )
+            AND block_number IS NOT NULL
     )
 SELECT
     block_number,
