@@ -112,11 +112,7 @@ SELECT
     {{ unique_key }},
     DATA,
     _inserted_timestamp,
-    MD5(
-        CAST(
-            COALESCE(CAST({{ unique_key }} AS text), '' :: STRING) AS text
-        )
-    ) AS id,
+    id,
     s.{{ partition_name }},
     s.value AS VALUE
 FROM
