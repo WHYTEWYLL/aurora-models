@@ -29,7 +29,7 @@ FROM
     l
     INNER JOIN {{ ref("silver__complete_event_abis") }} A
     ON A.parent_contract_address = l.contract_address
-    AND A.event_signature = l.topics [0] :: STRING
+    AND A.event_signature = l.topics[0]:: STRING
     AND l.block_number BETWEEN A.start_block
     AND A.end_block
 WHERE
@@ -77,48 +77,47 @@ WHERE
             TABLE(
                 information_schema.external_table_file_registration_history(
                     start_time => GREATEST(DATEADD('day', -1, CURRENT_TIMESTAMP), '2023-08-01 18:44:00.000' :: timestamp_ntz),
-                    table_name => '{{ source( "bronze_streamline", model) }}'
+                    table_name => '{{ source( "bronze_streamline", model) }}')
+                ) A
+            )
+        SELECT
+            {{ unique_key }},
+            DATA,
+            _inserted_timestamp,
+            MD5(
+                CAST(
+                    COALESCE(CAST({{ unique_key }} AS text), '' :: STRING) AS text
                 )
-            ) A
-    )
-SELECT
-    {{ unique_key }},
-    DATA,
-    _inserted_timestamp,
-    MD5(
-        CAST(
-            COALESCE(CAST({{ unique_key }} AS text), '' :: STRING) AS text
-        )
-    ) AS id,
-    s.{{ partition_name }},
-    s.value AS VALUE
-FROM
-    {{ source(
-        "bronze_streamline",
-        model
-    ) }}
-    s
-    JOIN meta b
-    ON b.file_name = metadata$filename
-    AND b.{{ partition_name }} = s.{{ partition_name }}
-WHERE
-    b.{{ partition_name }} = s.{{ partition_name }}
-    AND (
-        DATA :error :code IS NULL
-        OR DATA :error :code NOT IN (
-            '-32000',
-            '-32001',
-            '-32002',
-            '-32003',
-            '-32004',
-            '-32005',
-            '-32006',
-            '-32007',
-            '-32008',
-            '-32009',
-            '-32010'
-        )
-    )
+            ) AS id,
+            s.{{ partition_name }},
+            s.value AS VALUE
+        FROM
+            {{ source(
+                "bronze_streamline",
+                model
+            ) }}
+            s
+            JOIN meta b
+            ON b.file_name = metadata$filename
+            AND b.{{ partition_name }} = s.{{ partition_name }}
+        WHERE
+            b.{{ partition_name }} = s.{{ partition_name }}
+            AND (
+                DATA :error :code IS NULL
+                OR DATA :error :code NOT IN (
+                    '-32000',
+                    '-32001',
+                    '-32002',
+                    '-32003',
+                    '-32004',
+                    '-32005',
+                    '-32006',
+                    '-32007',
+                    '-32008',
+                    '-32009',
+                    '-32010'
+                )
+            )
 {% endmacro %}
 
 {% macro streamline_external_table_FR_query(
