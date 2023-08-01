@@ -16,7 +16,7 @@ FROM
 {% if is_incremental() %}
 {{ ref('bronze__streamline_blocks') }}
 WHERE
-    (
+    _inserted_timestamp >= (
         SELECT
             MAX(_inserted_timestamp) _inserted_timestamp
         FROM
