@@ -90,7 +90,8 @@ FINAL AS (
         ON blocks.block_number = b.block_number
 )
 SELECT
-    {{ dbt_utils.generate_surrogate_key(['BLOCK_NUMBER', 'TX_HASH']) }} AS receipts_id,*
+    *,
+    {{ dbt_utils.generate_surrogate_key(['BLOCK_NUMBER', 'TX_HASH']) }} AS receipts_id
 FROM
     FINAL
 WHERE
