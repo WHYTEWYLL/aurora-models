@@ -25,7 +25,8 @@ WITH last_3_days AS ({% if var('STREAMLINE_RUN_HISTORY') %}
             LATERAL FLATTEN(
                 input => transactions
             )
-        WHERE transactions IS NOT NULL
+        WHERE
+            transactions IS NOT NULL
     ),
     tbl AS (
         SELECT
@@ -49,6 +50,16 @@ WITH last_3_days AS ({% if var('STREAMLINE_RUN_HISTORY') %}
                     tx_hash
                 FROM
                     {{ ref("streamline__complete_tx_receipts") }}
+                WHERE
+                    (
+                        block_number >= (
+                            SELECT
+                                block_number
+                            FROM
+                                last_3_days
+                        )
+                    )
+                    AND block_number IS NOT NULL
             )
     )
 SELECT
@@ -57,4 +68,3 @@ SELECT
     tx_hash AS params
 FROM
     tbl
-
