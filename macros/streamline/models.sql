@@ -76,7 +76,7 @@ WHERE
         FROM
             TABLE(
                 information_schema.external_table_file_registration_history(
-                    start_time => DATEADD('day', -1, CURRENT_TIMESTAMP()),
+                    start_time => GREATEST(DATEADD('day', -1, CURRENT_TIMESTAMP), '2023-08-01 18:44:00.000' :: timestamp_ntz),
                     table_name => '{{ source( "bronze_streamline", model) }}')
                 ) A
             )

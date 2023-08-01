@@ -8,11 +8,13 @@
 ) }}
 
 WITH base AS (
+
     SELECT
         block_number,
-        DATA:result AS DATA,
+        DATA :result AS DATA,
         _inserted_timestamp
     FROM
+
 {% if is_incremental() %}
 {{ ref('bronze__streamline_tx_receipts') }}
 WHERE
@@ -33,14 +35,12 @@ WHERE
     )
 {% endif %}
 ),
-
 blocks AS (
-    SELECT 
+    SELECT
         *
     FROM
-    {{ ref('silver__blocks') }}
+        {{ ref('silver__blocks') }}
 ),
-
 FINAL AS (
     SELECT
         b.block_number,
@@ -86,13 +86,12 @@ FINAL AS (
         b._inserted_timestamp
     FROM
         base b
-    LEFT JOIN blocks
+        LEFT JOIN blocks
         ON blocks.block_number = b.block_number
 )
-
 SELECT
-    {{ dbt_utils.generate_surrogate_key(['BLOCK_NUMBER', 'TX_HASH']) }} AS receipts_id,
-    *
+    *,
+    {{ dbt_utils.generate_surrogate_key(['BLOCK_NUMBER', 'TX_HASH']) }} AS receipts_id
 FROM
     FINAL
 WHERE

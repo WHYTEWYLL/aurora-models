@@ -1,5 +1,4 @@
 -- depends_on: {{ ref('bronze__streamline_tx_receipts') }}
-
 {{ config (
     materialized = "incremental",
     unique_key = "id",
@@ -10,7 +9,7 @@
 SELECT
     id,
     block_number,
-    data:result:transactionHash::STRING AS tx_hash,
+    DATA :result :transactionHash :: STRING AS tx_hash,
     _inserted_timestamp
 FROM
 
@@ -26,7 +25,8 @@ WHERE
     AND tx_hash IS NOT NULL
 {% else %}
     {{ ref('bronze__streamline_FR_tx_receipts') }}
-    WHERE tx_hash IS NOT NULL
+WHERE
+    tx_hash IS NOT NULL
 {% endif %}
 
 qualify(ROW_NUMBER() over (PARTITION BY id
