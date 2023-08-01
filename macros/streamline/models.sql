@@ -80,6 +80,33 @@ WHERE
                     table_name => '{{ source( "bronze_streamline", model) }}'
                 )
             ) A
+    ),
+    external_table_query AS (
+        SELECT
+            {{ unique_key }},
+            DATA,
+            _inserted_timestamp,
+            MD5(
+                CAST(
+                    COALESCE(CAST({{ unique_key }} AS text), '' :: STRING) AS text
+                )
+            ) AS id,
+            {{ partition_name }},
+            VALUE AS VALUE
+        FROM
+            {{ source(
+                "bronze_streamline",
+                model
+            ) }}
+        WHERE
+            {{ partition_name }} >= (
+                SELECT
+                    MIN(
+                        {{ partition_name }}
+                    )
+                FROM
+                    meta
+            )
     )
 SELECT
     {{ unique_key }},
@@ -93,11 +120,7 @@ SELECT
     s.{{ partition_name }},
     s.value AS VALUE
 FROM
-    {{ source(
-        "bronze_streamline",
-        model
-    ) }}
-    s
+    external_table_query s
     JOIN meta b
     ON b.file_name = metadata$filename
     AND b.{{ partition_name }} = s.{{ partition_name }}
