@@ -76,7 +76,7 @@ WHERE
         FROM
             TABLE(
                 information_schema.external_table_file_registration_history(
-                    start_time => CURRENT_TIMESTAMP - INTERVAL '15 minutes',
+                    start_time => CURRENT_TIMESTAMP,
                     table_name => '{{ source( "bronze_streamline", model) }}')
                 ) A
             )
