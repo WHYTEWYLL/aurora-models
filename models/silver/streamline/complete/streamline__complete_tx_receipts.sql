@@ -1,5 +1,4 @@
 -- depends_on: {{ ref('bronze__streamline_tx_receipts') }}
-
 {{ config (
     materialized = "incremental",
     unique_key = "id",
@@ -10,24 +9,24 @@
 SELECT
     id,
     block_number,
-    data:result:transactionHash::STRING AS tx_hash,
+    DATA :result :transactionHash :: STRING AS tx_hash,
     _inserted_timestamp
 FROM
 
 {% if is_incremental() %}
 {{ ref('bronze__streamline_tx_receipts') }}
 WHERE
-    _inserted_timestamp >= '2023-08-01 18:44:00.000' :: timestamp_ntz
-    {# (
+    (
         SELECT
             MAX(_inserted_timestamp) _inserted_timestamp
         FROM
             {{ this }}
-    ) #}
+    )
     AND tx_hash IS NOT NULL
 {% else %}
     {{ ref('bronze__streamline_FR_tx_receipts') }}
-    WHERE tx_hash IS NOT NULL
+WHERE
+    tx_hash IS NOT NULL
 {% endif %}
 
 qualify(ROW_NUMBER() over (PARTITION BY id

@@ -18,13 +18,12 @@ WITH base AS (
 {% if is_incremental() %}
 {{ ref('bronze__streamline_transactions') }}
 WHERE
-    _inserted_timestamp >= '2023-08-01 18:44:00.000' :: timestamp_ntz
-    {# (
+    (
         SELECT
             MAX(_inserted_timestamp) _inserted_timestamp
         FROM
             {{ this }}
-    ) #}
+    )
     AND IS_OBJECT(DATA)
 {% else %}
     {{ ref('bronze__streamline_FR_transactions') }}
@@ -56,18 +55,24 @@ base_tx AS (
             1,
             10
         ) AS origin_function_signature,
-        COALESCE(utils.udf_hex_to_int(
-            A.data :maxFeePerGas :: STRING
-        ) :: FLOAT / pow(
-            10,
-            9
-        ), 0)  AS max_fee_per_gas,
-        COALESCE( utils.udf_hex_to_int(
-            A.data :maxPriorityFeePerGas :: STRING
-        ) :: FLOAT / pow(
-            10,
-            9
-        ), 0) AS max_priority_fee_per_gas,
+        COALESCE(
+            utils.udf_hex_to_int(
+                A.data :maxFeePerGas :: STRING
+            ) :: FLOAT / pow(
+                10,
+                9
+            ),
+            0
+        ) AS max_fee_per_gas,
+        COALESCE(
+            utils.udf_hex_to_int(
+                A.data :maxPriorityFeePerGas :: STRING
+            ) :: FLOAT / pow(
+                10,
+                9
+            ),
+            0
+        ) AS max_priority_fee_per_gas,
         utils.udf_hex_to_int(
             A.data :nonce :: STRING
         ) :: INT AS nonce,
@@ -281,10 +286,8 @@ FROM
 {% endif %}
 )
 SELECT
-    {{ dbt_utils.generate_surrogate_key(['BLOCK_NUMBER', 'TX_HASH', 'POSITION']) }} AS tx_id,
-    *
+    {{ dbt_utils.generate_surrogate_key(['BLOCK_NUMBER', 'TX_HASH', 'POSITION']) }} AS tx_id,*
 FROM
     FINAL qualify(ROW_NUMBER() over (PARTITION BY block_number, tx_hash
 ORDER BY
     _inserted_timestamp DESC, is_pending ASC)) = 1
-
