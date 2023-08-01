@@ -85,7 +85,6 @@ WHERE
         SELECT
             {{ unique_key }},
             DATA,
-            _inserted_timestamp,
             MD5(
                 CAST(
                     COALESCE(CAST({{ unique_key }} AS text), '' :: STRING) AS text
