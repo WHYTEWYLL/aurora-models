@@ -1,5 +1,7 @@
 {{ config(
     materialized = 'incremental',
+    incremental_strategy = 'delete+insert',
+    unique_key = "logs_id",
     cluster_by = "block_timestamp::date, _inserted_timestamp::date",
     tags = ['core']
 ) }}

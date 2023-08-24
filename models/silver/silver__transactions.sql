@@ -1,6 +1,8 @@
 -- depends_on: {{ ref('bronze__streamline_transactions') }}
 {{ config(
     materialized = 'incremental',
+    incremental_strategy = 'delete+insert',
+    unique_key = "tx_id",
     cluster_by = "block_timestamp::date, _inserted_timestamp::date",
     tags = ['core']
 ) }}
@@ -284,7 +286,8 @@ FROM
 {% endif %}
 )
 SELECT
-    *
+    *,
+    {{ dbt_utils.generate_surrogate_key(['BLOCK_NUMBER', 'TX_HASH', 'POSITION']) }} AS tx_id
 FROM
     FINAL qualify(ROW_NUMBER() over (PARTITION BY block_number, tx_hash
 ORDER BY
