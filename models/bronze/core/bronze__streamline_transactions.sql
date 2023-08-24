@@ -5,7 +5,7 @@
 WITH meta AS (
 
     SELECT
-        job_created_time AS _inserted_timestamp,
+        last_modified AS _inserted_timestamp,
         file_name,
         CAST(SPLIT_PART(SPLIT_PART(file_name, '/', 4), '_', 1) AS INTEGER) AS _partition_by_block_id
     FROM
@@ -15,42 +15,66 @@ WITH meta AS (
                 table_name => '{{ source( "bronze_streamline", "transactions") }}'
             )
         ) A
+),
+tbl AS (
+    SELECT
+        block_number,
+        _inserted_timestamp,
+        s._partition_by_block_id,
+        s.value AS VALUE
+    FROM
+        {{ source(
+            "bronze_streamline",
+            "transactions"
+        ) }}
+        s
+        JOIN meta b
+        ON b.file_name = metadata$filename
+        AND b._partition_by_block_id = s._partition_by_block_id
+    WHERE
+        b._partition_by_block_id = s._partition_by_block_id
+        AND (
+            DATA :error :code IS NULL
+            OR DATA :error :code NOT IN (
+                '-32000',
+                '-32001',
+                '-32002',
+                '-32003',
+                '-32004',
+                '-32005',
+                '-32006',
+                '-32007',
+                '-32008',
+                '-32009',
+                '-32010'
+            )
+        )
 )
 SELECT
     block_number,
-    DATA :hash ::STRING AS tx_hash,
+    f.value :hash :: STRING AS tx_hash,
     _inserted_timestamp,
     MD5(
         CAST(
-            COALESCE(CAST(CONCAT(block_number, '_-_', COALESCE(DATA :hash ::STRING, '')) AS text), '' :: STRING) AS text
+            COALESCE(
+                CAST(
+                    CONCAT(
+                        block_number,
+                        '_-_',
+                        COALESCE(
+                            f.value :hash :: STRING,
+                            ''
+                        )
+                    ) AS text
+                ),
+                '' :: STRING
+            ) AS text
         )
     ) AS id,
-    s._partition_by_block_id,
-    s.value AS VALUE
+    _partition_by_block_id,
+    tbl.value AS VALUE
 FROM
-    {{ source(
-        "bronze_streamline",
-        "transactions"
-    ) }}
-    s
-    JOIN meta b
-    ON b.file_name = metadata$filename
-    AND b._partition_by_block_id = s._partition_by_block_id
-WHERE
-    b._partition_by_block_id = s._partition_by_block_id
-    AND (
-        DATA :error :code IS NULL
-        OR DATA :error :code NOT IN (
-            '-32000',
-            '-32001',
-            '-32002',
-            '-32003',
-            '-32004',
-            '-32005',
-            '-32006',
-            '-32007',
-            '-32008',
-            '-32009',
-            '-32010'
-        )
-    )
+    tbl,
+    LATERAL FLATTEN(
+        input => VALUE :data :result :transactions
+    ) f
