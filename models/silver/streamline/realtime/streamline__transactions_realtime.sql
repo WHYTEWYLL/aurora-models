@@ -1,7 +1,7 @@
 {{ config (
     materialized = "view",
     post_hook = if_data_call_function(
-        func = "{{this.schema}}.udf_json_rpc(object_construct('sql_source', '{{this.identifier}}', 'external_table', 'transactions', 'exploded_key','[\"result\", \"transactions\"]', 'producer_batch_size',10000, 'producer_limit_size', 10000000, 'worker_batch_size',200))",
+        func = "{{this.schema}}.udf_json_rpc(object_construct('sql_source', '{{this.identifier}}', 'external_table', 'transactions', 'exploded_key','[\"result\", \"transactions\"]', 'producer_batch_size',500000, 'producer_limit_size', 20000000, 'worker_batch_size',5000))",
         target = "{{this.schema}}.{{this.identifier}}"
     )
 ) }}
@@ -41,7 +41,7 @@ WITH last_3_days AS ({% if var('STREAMLINE_RUN_HISTORY') %}
                 ''
             ) AS block_number_hex
         FROM
-            {{ ref("streamline__complete_blocks") }}
+            {{ ref("streamline__complete_transactions") }}
         WHERE
             (
                 block_number >= (
@@ -61,5 +61,4 @@ SELECT
         '_-_',
         'true'
     ) AS params
-FROM
-    tbl
+FROM tbl

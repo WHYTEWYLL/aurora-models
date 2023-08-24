@@ -2,14 +2,12 @@
 {{ config (
     materialized = "incremental",
     unique_key = "id",
-    cluster_by = "ROUND(block_number, -3)",
     post_hook = "ALTER TABLE {{ this }} ADD SEARCH OPTIMIZATION on equality(id)"
 ) }}
 
 SELECT
     id,
-    block_number,
-    DATA :result :transactionHash :: STRING AS tx_hash,
+    value:data:result:transactionHash::string AS tx_hash,
     _inserted_timestamp
 FROM
 
