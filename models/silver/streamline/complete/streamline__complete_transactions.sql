@@ -9,7 +9,7 @@
 SELECT
     id,
     block_number,
-    DATA :hash :: STRING AS tx_hash,
+    tx_hash,
     _inserted_timestamp
 FROM
 
