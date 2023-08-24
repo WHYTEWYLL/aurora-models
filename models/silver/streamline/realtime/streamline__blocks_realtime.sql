@@ -1,7 +1,7 @@
 {{ config (
     materialized = "view",
     post_hook = if_data_call_function(
-        func = "{{this.schema}}.udf_json_rpc(object_construct('sql_source', '{{this.identifier}}', 'external_table','blocks', 'producer_batch_size',5000, 'producer_limit_size', 5000, 'worker_batch_size',50))",
+        func = "{{this.schema}}.udf_json_rpc(object_construct('sql_source', '{{this.identifier}}', 'external_table','blocks', 'producer_batch_size',500000, 'producer_limit_size', 20000000, 'worker_batch_size',5000))",
         target = "{{this.schema}}.{{this.identifier}}"
     )
 ) }}
@@ -61,6 +61,4 @@ SELECT
         '_-_',
         'false'
     ) AS params
-FROM
-    {{ ref("streamline__blocks") }}
-WHERE block_number <= 39511995
+FROM tbl
