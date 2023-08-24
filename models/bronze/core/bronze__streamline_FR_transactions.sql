@@ -75,5 +75,5 @@ SELECT
 FROM
     tbl,
     LATERAL FLATTEN(
-        input => VALUE :data :result :transactions
+        input => VALUE :data :result :transactions, OUTER => TRUE
     ) f
