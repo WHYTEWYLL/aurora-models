@@ -6,6 +6,7 @@
 
         {% endset %}
         {% do run_query(sql) %}
+        {{- fsc_utils.create_udfs() -}}
 
     {% endif %}
 {% endmacro %}
