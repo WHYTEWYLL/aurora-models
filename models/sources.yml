@@ -18,3 +18,9 @@ sources:
       - name: blocks
       - name: transactions
       - name: tx_receipts
+  - name: crosschain_silver
+    database: crosschain
+
+    schema: silver
+    tables:
+      - name: number_sequence
