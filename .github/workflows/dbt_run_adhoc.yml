@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
     branches:
       - "main"
+      - "update-dbt-run-adhoc-warehouse"
     inputs:
       environment:
         type: choice 
@@ -38,7 +39,7 @@ env:
   PASSWORD: "${{ secrets.PASSWORD }}"
   REGION: "${{ vars.REGION }}"
   DATABASE: "${{ vars.DATABASE }}"
-  WAREHOUSE: "${{ vars.WAREHOUSE }}"
+  WAREHOUSE: "${{ inputs.WAREHOUSE }}"
   SCHEMA: "${{ vars.SCHEMA }}"
 
 concurrency:
