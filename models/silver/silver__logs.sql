@@ -174,9 +174,9 @@ FROM
 {% endif %}
 )
 SELECT
-    {{ dbt_utils.generate_surrogate_key(['BLOCK_NUMBER', '_LOG_ID']) }} AS logs_id,
+    {{ dbt_utils.generate_surrogate_key(['BLOCK_NUMBER','tx_hash', '_LOG_ID']) }} AS logs_id,
     *
 FROM
-    FINAL qualify(ROW_NUMBER() over (PARTITION BY block_number, event_index
+    FINAL qualify(ROW_NUMBER() over (PARTITION BY tx_hash, _log_id
 ORDER BY
     _inserted_timestamp DESC, is_pending ASC)) = 1
