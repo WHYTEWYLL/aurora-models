@@ -11,7 +11,7 @@ WITH base AS (
 
     SELECT
         block_number,
-        DATA,
+        VALUE AS DATA,
         _inserted_timestamp
     FROM
 
