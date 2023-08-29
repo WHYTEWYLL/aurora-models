@@ -19,6 +19,7 @@ WITH meta AS (
 tbl AS (
     SELECT
         block_number,
+        s.data :hash :: STRING AS tx_hash,
         _inserted_timestamp,
         s._partition_by_block_id,
         s.value AS VALUE
@@ -52,7 +53,7 @@ tbl AS (
 )
 SELECT
     block_number,
-    f.value :hash :: STRING AS tx_hash,
+    COALESCE(f.value :hash :: STRING, tx_hash) AS tx_hash,
     _inserted_timestamp,
     MD5(
         CAST(
@@ -61,10 +62,7 @@ SELECT
                     CONCAT(
                         block_number,
                         '_-_',
-                        COALESCE(
-                            f.value :hash :: STRING,
-                            ''
-                        )
+                        COALESCE(COALESCE(f.value :hash :: STRING, tx_hash), '')
                     ) AS text
                 ),
                 '' :: STRING
