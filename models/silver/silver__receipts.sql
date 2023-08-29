@@ -10,7 +10,7 @@
 WITH base AS (
     SELECT
         block_number,
-        DATA:result AS DATA,
+        VALUE AS DATA,
         _inserted_timestamp
     FROM
 {% if is_incremental() %}

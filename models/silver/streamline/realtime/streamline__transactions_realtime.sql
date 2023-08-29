@@ -41,7 +41,7 @@ WITH last_3_days AS ({% if var('STREAMLINE_RUN_HISTORY') %}
                 ''
             ) AS block_number_hex
         FROM
-            {{ ref("streamline__complete_transactions") }}
+            {{ ref("streamline__complete_blocks_transactions") }}
         WHERE
             (
                 block_number >= (

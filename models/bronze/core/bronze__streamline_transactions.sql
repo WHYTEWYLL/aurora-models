@@ -19,10 +19,11 @@ WITH meta AS (
 tbl AS (
     SELECT
         block_number,
-        s.data :hash :: STRING AS tx_hash,
+        COALESCE(s.data :hash :: STRING, s.data :result :hash :: STRING) AS tx_hash,
         _inserted_timestamp,
         s._partition_by_block_id,
-        s.value AS VALUE
+        s.value AS VALUE,
+        s.data AS DATA
     FROM
         {{ source(
             "bronze_streamline",
@@ -70,9 +71,10 @@ SELECT
         )
     ) AS id,
     _partition_by_block_id,
-    tbl.value AS VALUE
+    COALESCE(f.value, tbl.data:result, tbl.data) AS VALUE
 FROM
     tbl,
     LATERAL FLATTEN(
         input => VALUE :data :result :transactions, OUTER => TRUE
     ) f
+WHERE f.value IS NOT NULL OR tbl.data :transactionIndex IS NOT NULL 

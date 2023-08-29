@@ -25,7 +25,7 @@ SELECT
         )
     ) AS id,
     s._partition_by_block_id,
-    s.value AS VALUE
+    s.value:data:result AS VALUE
 FROM
     {{ source(
         "bronze_streamline",

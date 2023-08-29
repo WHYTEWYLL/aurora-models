@@ -1,18 +1,19 @@
--- depends_on: {{ ref('bronze__streamline_tx_receipts') }}
+-- depends_on: {{ ref('bronze__streamline_transactions') }}
 {{ config (
     materialized = "incremental",
     unique_key = "id",
+    cluster_by = "ROUND(block_number, -3)",
     post_hook = "ALTER TABLE {{ this }} ADD SEARCH OPTIMIZATION on equality(id)"
 ) }}
 
 SELECT
     id,
-    tx_hash,
+    block_number,
     _inserted_timestamp
 FROM
 
 {% if is_incremental() %}
-{{ ref('bronze__streamline_tx_receipts') }}
+{{ ref('bronze__streamline_blocks_transactions') }}
 WHERE
     _inserted_timestamp >= (
         SELECT
@@ -20,11 +21,8 @@ WHERE
         FROM
             {{ this }}
     )
-    AND tx_hash IS NOT NULL
 {% else %}
-    {{ ref('bronze__streamline_FR_tx_receipts') }}
-WHERE
-    tx_hash IS NOT NULL
+    {{ ref('bronze__streamline_FR_blocks_transactions') }}
 {% endif %}
 
 qualify(ROW_NUMBER() over (PARTITION BY id
