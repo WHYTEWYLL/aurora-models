@@ -16,7 +16,7 @@ WITH summary_stats AS (
     FROM
         {{ ref('silver__blocks') }}
     WHERE
-        block_timestamp <= DATEADD('hour', -12, CURRENT_TIMESTAMP())
+        block_timestamp <= DATEADD('hour', -12, SYSDATE())
 
 {% if is_incremental() %}
 AND (
@@ -30,8 +30,8 @@ AND (
                 FROM
                     {{ ref('silver__blocks') }}
                 WHERE
-                    block_timestamp BETWEEN DATEADD('hour', -96, CURRENT_TIMESTAMP())
-                    AND DATEADD('hour', -95, CURRENT_TIMESTAMP())
+                    block_timestamp BETWEEN DATEADD('hour', -96, SYSDATE())
+                    AND DATEADD('hour', -95, SYSDATE())
                 UNION
                 SELECT
                     MIN(VALUE) - 1 AS block_number
@@ -110,7 +110,7 @@ SELECT
     blocks_tested,
     blocks_impacted_count,
     blocks_impacted_array,
-    CURRENT_TIMESTAMP() AS test_timestamp
+    SYSDATE() AS test_timestamp
 FROM
     summary_stats
     JOIN impacted_blocks
