@@ -11,7 +11,7 @@
                     SEQ4()
             ) AS id
         FROM
-            TABLE(GENERATOR(rowcount => 100000000))
+            TABLE(GENERATOR(rowcount => 500000000))
     )
 SELECT
     id AS height
