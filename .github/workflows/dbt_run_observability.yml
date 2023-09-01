@@ -4,8 +4,8 @@ run-name: dbt_run_full_observability
 on:
   workflow_dispatch:
   schedule:
-    # Runs “At 00:00 on day-of-month 1.” (see https://crontab.guru)
-    - cron: "0 0 1 * *"
+    # Runs "2 times per day" (see https://crontab.guru)
+    - cron: "0 6,18 * * *"
 
 env:
   USE_VARS: "${{ vars.USE_VARS }}"
@@ -37,10 +37,9 @@ jobs:
           python-version: "3.7.x"
 
       - name: install dependencies
-
         run: |
-          pip install -r requirements.txt
+          pip3 install dbt-snowflake==${{ env.DBT_VERSION }} cli_passthrough requests click
           dbt deps
       - name: Run DBT Jobs
         run: |
-          dbt run --threads 2 --vars '{"OBSERV_FULL_TEST":True}' -m tag:observability
+          dbt run --threads 2 --vars '{"OBSERV_FULL_TEST":False}' -m tag:observability
