@@ -62,7 +62,7 @@ on-run-end:
 dispatch:
   - macro_namespace: dbt
     search_order:
-      - osmosis-models
+      - aurora-models
       - dbt_snowflake_query_tags
       - dbt
 
