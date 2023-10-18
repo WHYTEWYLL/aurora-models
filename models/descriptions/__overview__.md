@@ -23,10 +23,10 @@ There is more information on how to use dbt docs in the last section of this doc
 
 **Fact Tables:**
 
-- [fact_blocks](#!/model/model.aurora.core__fact_blocks)
-- [fact_transactions](#!/model/model.aurora.core__fact_transactions)
-- [fact_logs](#!/model/model.aurora.core__fact_logs)
-- [fact_receipts](#!/model/model.aurora.core__fact_receipts)
+- [fact_blocks](#!/model/model.aurora_models.core__fact_blocks)
+- [fact_transactions](#!/model/model.aurora_models.core__fact_transactions)
+- [fact_logs](#!/model/model.aurora_models.core__fact_logs)
+- [fact_receipts](#!/model/model.aurora_models.core__fact_receipts)
 
 
 ## **⚠️ Aurora Data Notes and Known Issues**
