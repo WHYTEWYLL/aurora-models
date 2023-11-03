@@ -4,9 +4,10 @@ run-name: dbt_run_streamline_realtime
 on:
   workflow_dispatch:
   schedule:
-    # Runs "every 10 minutes"
-    - cron: "*/10 * * * *"
+    # Runs every 10 minutes
+    - cron: "0,10,20,30,40,50 * * * *"
 
+    
 env:
   USE_VARS: "${{ vars.USE_VARS }}"
   DBT_PROFILES_DIR: "${{ vars.DBT_PROFILES_DIR }}"
