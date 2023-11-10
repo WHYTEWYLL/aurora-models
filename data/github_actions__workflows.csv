@@ -1,0 +1,4 @@
+workflow_name,workflow_schedule
+dbt_run_scheduled,"5,15,25,35,45,55 * * * *"
+dbt_run_streamline_realtime,"0,10,20,30,40,50 * * * *"
+dbt_test_tasks,"0,30 * * * *"
