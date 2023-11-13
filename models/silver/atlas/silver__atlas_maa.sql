@@ -1,6 +1,9 @@
 {{ config(
     materialized = 'incremental',
-    unique_key = 'day'
+    incremental_stratege = 'merge',
+    merge_exclude_columns = ["inserted_timestamp"],
+    unique_key = 'day',
+    tags = ['atlas']
 ) }}
 
 WITH dates AS (
@@ -64,6 +67,9 @@ FINAL AS (
         1 DESC
 )
 SELECT
+        {{ dbt_utils.generate_surrogate_key(
+        ['day']
+    ) }} AS atlas_maa_id,
     DAY,
     maa,
     SYSDATE() AS inserted_timestamp,
