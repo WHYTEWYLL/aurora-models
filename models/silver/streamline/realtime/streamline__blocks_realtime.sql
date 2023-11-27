@@ -6,24 +6,22 @@
     )
 ) }}
 
-WITH last_3_days AS (
+WITH last_3_days AS ({% if var('STREAMLINE_RUN_HISTORY') %}
 
     SELECT
-        MAX(block_number) - 50000 AS block_number --aprox 3 days
-    FROM
-        {{ ref("streamline__blocks") }}
-),
-tbl AS (
+        0 AS block_number
+    {% else %}
     SELECT
-        block_number,
-        block_number_hex
+        MAX(block_number) - 500000 AS block_number --aprox 3 days
     FROM
         {{ ref("streamline__blocks") }}
-
-        {% if var('STREAMLINE_RUN_HISTORY') %}
-        WHERE
-            block_number IS NOT NULL
-        {% else %}
+    {% endif %}),
+    tbl AS (
+        SELECT
+            block_number,
+            block_number_hex
+        FROM
+            {{ ref("streamline__blocks") }}
         WHERE
             (
                 block_number >= (
@@ -34,22 +32,16 @@ tbl AS (
                 )
             )
             AND block_number IS NOT NULL
-        {% endif %}
-    EXCEPT
-    SELECT
-        block_number,
-        REPLACE(
-            concat_ws('', '0x', to_char(block_number, 'XXXXXXXX')),
-            ' ',
-            ''
-        ) AS block_number_hex
-    FROM
-        {{ ref("streamline__complete_blocks") }}
-
-        {% if var('STREAMLINE_RUN_HISTORY') %}
-        WHERE
-            block_number IS NOT NULL
-        {% else %}
+        EXCEPT
+        SELECT
+            block_number,
+            REPLACE(
+                concat_ws('', '0x', to_char(block_number, 'XXXXXXXX')),
+                ' ',
+                ''
+            ) AS block_number_hex
+        FROM
+            {{ ref("streamline__complete_blocks") }}
         WHERE
             (
                 block_number >= (
@@ -60,8 +52,7 @@ tbl AS (
                 )
             )
             AND block_number IS NOT NULL
-        {% endif %}
-)
+    )
 SELECT
     block_number,
     'eth_getBlockByNumber' AS method,
@@ -70,5 +61,4 @@ SELECT
         '_-_',
         'false'
     ) AS params
-FROM
-    tbl
+FROM tbl
