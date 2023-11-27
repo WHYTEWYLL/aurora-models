@@ -6,22 +6,24 @@
     )
 ) }}
 
-WITH last_3_days AS ({% if var('STREAMLINE_RUN_HISTORY') %}
+WITH last_3_days AS (
 
-    SELECT
-        0 AS block_number
-    {% else %}
     SELECT
         MAX(block_number) - 50000 AS block_number --aprox 3 days
     FROM
         {{ ref("streamline__blocks") }}
-    {% endif %}),
-    tbl AS (
-        SELECT
-            block_number,
-            block_number_hex
-        FROM
-            {{ ref("streamline__blocks") }}
+),
+tbl AS (
+    SELECT
+        block_number,
+        block_number_hex
+    FROM
+        {{ ref("streamline__blocks") }}
+
+        {% if var('STREAMLINE_RUN_HISTORY') %}
+        WHERE
+            block_number IS NOT NULL
+        {% else %}
         WHERE
             (
                 block_number >= (
@@ -32,16 +34,22 @@ WITH last_3_days AS ({% if var('STREAMLINE_RUN_HISTORY') %}
                 )
             )
             AND block_number IS NOT NULL
-        EXCEPT
-        SELECT
-            block_number,
-            REPLACE(
-                concat_ws('', '0x', to_char(block_number, 'XXXXXXXX')),
-                ' ',
-                ''
-            ) AS block_number_hex
-        FROM
-            {{ ref("streamline__complete_blocks") }}
+        {% endif %}
+    EXCEPT
+    SELECT
+        block_number,
+        REPLACE(
+            concat_ws('', '0x', to_char(block_number, 'XXXXXXXX')),
+            ' ',
+            ''
+        ) AS block_number_hex
+    FROM
+        {{ ref("streamline__complete_blocks") }}
+
+        {% if var('STREAMLINE_RUN_HISTORY') %}
+        WHERE
+            block_number IS NOT NULL
+        {% else %}
         WHERE
             (
                 block_number >= (
@@ -52,7 +60,8 @@ WITH last_3_days AS ({% if var('STREAMLINE_RUN_HISTORY') %}
                 )
             )
             AND block_number IS NOT NULL
-    )
+        {% endif %}
+)
 SELECT
     block_number,
     'eth_getBlockByNumber' AS method,
@@ -61,4 +70,5 @@ SELECT
         '_-_',
         'false'
     ) AS params
-FROM tbl
+FROM
+    tbl
