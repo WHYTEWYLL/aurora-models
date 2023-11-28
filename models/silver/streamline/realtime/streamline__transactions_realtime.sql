@@ -1,7 +1,7 @@
 {{ config (
     materialized = "view",
     post_hook = if_data_call_function(
-        func = "{{this.schema}}.udf_json_rpc(object_construct('sql_source', '{{this.identifier}}', 'external_table', 'transactions', 'exploded_key','[\"result\", \"transactions\"]', 'producer_batch_size',500000, 'producer_limit_size', 20000000, 'worker_batch_size',5000))",
+        func = "{{this.schema}}.udf_json_rpc(object_construct('sql_source', '{{this.identifier}}', 'external_table', 'transactions', 'exploded_key','[\"result\", \"transactions\"]', 'producer_batch_size',10000, 'producer_limit_size',2000000, 'worker_batch_size',100))",
         target = "{{this.schema}}.{{this.identifier}}"
     )
 ) }}
@@ -12,7 +12,7 @@ WITH last_3_days AS ({% if var('STREAMLINE_RUN_HISTORY') %}
         0 AS block_number
     {% else %}
     SELECT
-        MAX(block_number) - 50000 AS block_number --aprox 3 days
+        MAX(block_number) - 500000 AS block_number --aprox 3 days
     FROM
         {{ ref("streamline__blocks") }}
     {% endif %}),
