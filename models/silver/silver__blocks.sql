@@ -1,6 +1,7 @@
 -- depends_on: {{ ref('bronze__streamline_blocks') }}
 {{ config(
     materialized = 'incremental',
+    incremental_strategy = 'delete+insert',
     unique_key = "block_number",
     cluster_by = "block_timestamp::date",
     tags = ['core']
