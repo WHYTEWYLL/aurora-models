@@ -22,8 +22,11 @@ WHERE
         FROM
             {{ this }}
     )
+    AND DATA != []
 {% else %}
     {{ ref('bronze__streamline_FR_blocks') }}
+WHERE
+    DATA != []
 {% endif %}
 
 qualify(ROW_NUMBER() over (PARTITION BY id
