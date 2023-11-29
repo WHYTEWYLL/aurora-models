@@ -18,4 +18,9 @@ SELECT
         ''
     ) AS block_number_hex
 FROM
-    TABLE(streamline.udtf_get_base_table({{ block_height }}))
+    TABLE(
+        streamline.udtf_get_base_table(
+            {{ block_height }}
+            - 2000
+        )
+    ) -- avoid the missing blocks at the tips of the chainhead, around 1 hour
