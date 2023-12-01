@@ -21,6 +21,6 @@ FROM
     TABLE(
         streamline.udtf_get_base_table(
             {{ block_height }}
-            - 2000
+            - 800
         )
     ) -- avoid the missing blocks at the tips of the chainhead, around 1 hour
