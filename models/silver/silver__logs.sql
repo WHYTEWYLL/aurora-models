@@ -177,7 +177,7 @@ SELECT
     {{ dbt_utils.generate_surrogate_key(['BLOCK_NUMBER','tx_hash', '_LOG_ID']) }} AS logs_id,
     SYSDATE() AS inserted_timestamp,
     SYSDATE() AS modified_timestamp,
-    '{{ invocation_id }}' AS invocation_id,
+    '{{ invocation_id }}' AS _invocation_id,
     *
 FROM
     FINAL qualify(ROW_NUMBER() over (PARTITION BY tx_hash, _log_id
