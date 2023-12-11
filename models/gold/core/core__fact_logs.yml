@@ -30,6 +30,8 @@ models:
         description: "The from address at the transaction level."
       - name: ORIGIN_TO_ADDRESS
         description: "The to address at the transaction level."
+      - name: FACT_LOGS_ID
+        description: '{{ doc("pk_id") }}'
       - name: INSERTED_TIMESTAMP
         description: "{{ doc('inserted_timestamp') }}"
       - name: MODIFIED_TIMESTAMP

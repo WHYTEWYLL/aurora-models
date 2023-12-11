@@ -6,10 +6,6 @@
 ) }}
 
 SELECT
-    COALESCE (
-        logs_id,
-        {{ dbt_utils.generate_surrogate_key(['BLOCK_NUMBER','tx_hash', '_LOG_ID']) }}
-    ) AS block_number,
     block_number,
     block_timestamp,
     tx_hash,
@@ -23,6 +19,10 @@ SELECT
     event_removed,
     tx_status,
     _log_id,
+    COALESCE (
+        logs_id,
+        {{ dbt_utils.generate_surrogate_key(['BLOCK_NUMBER','tx_hash', '_LOG_ID']) }}
+    ) AS fact_logs_id,
     COALESCE (
         inserted_timestamp,
         _inserted_timestamp

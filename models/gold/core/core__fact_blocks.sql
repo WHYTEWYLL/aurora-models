@@ -6,10 +6,6 @@
 ) }}
 
 SELECT
-    COALESCE (
-        block_id,
-        {{ dbt_utils.generate_surrogate_key(['block_number']) }}
-    ) AS block_number,
     block_number,
     block_timestamp,
     'mainnet' AS network,
@@ -66,6 +62,10 @@ SELECT
         'uncles',
         uncles
     ) AS block_header_json,
+    COALESCE (
+        block_id,
+        {{ dbt_utils.generate_surrogate_key(['block_number']) }}
+    ) AS fact_blocks_id,
     COALESCE (
         inserted_timestamp,
         _inserted_timestamp
