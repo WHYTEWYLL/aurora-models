@@ -6,7 +6,10 @@
 ) }}
 
 SELECT
-    block_id,
+    COALESCE (
+        block_id,
+        {{ dbt_utils.generate_surrogate_key(['block_number']) }}
+    ) AS block_number,
     block_number,
     block_timestamp,
     'mainnet' AS network,
@@ -63,7 +66,13 @@ SELECT
         'uncles',
         uncles
     ) AS block_header_json,
-    inserted_timestamp,
-    modified_timestamp
+    COALESCE (
+        inserted_timestamp,
+        _inserted_timestamp
+    ) AS inserted_timestamp,
+    COALESCE (
+        modified_timestamp,
+        _inserted_timestamp
+    ) AS modified_timestamp
 FROM
     {{ ref('silver__blocks') }}

@@ -6,6 +6,10 @@
 ) }}
 
 SELECT
+    COALESCE (
+        logs_id,
+        {{ dbt_utils.generate_surrogate_key(['BLOCK_NUMBER','tx_hash', '_LOG_ID']) }}
+    ) AS block_number,
     block_number,
     block_timestamp,
     tx_hash,
@@ -19,7 +23,13 @@ SELECT
     event_removed,
     tx_status,
     _log_id,
-    inserted_timestamp,
-    modified_timestamp
+    COALESCE (
+        inserted_timestamp,
+        _inserted_timestamp
+    ) AS inserted_timestamp,
+    COALESCE (
+        modified_timestamp,
+        _inserted_timestamp
+    ) AS modified_timestamp
 FROM
     {{ ref('silver__logs') }}
