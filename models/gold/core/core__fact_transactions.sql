@@ -29,6 +29,8 @@ SELECT
     r,
     s,
     v,
-    tx_type
+    tx_type,
+    inserted_timestamp,
+    modified_timestamp
 FROM
     {{ ref('silver__transactions') }}

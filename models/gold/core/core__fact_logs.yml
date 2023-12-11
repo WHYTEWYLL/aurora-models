@@ -34,5 +34,3 @@ models:
         description: "{{ doc('inserted_timestamp') }}"
       - name: MODIFIED_TIMESTAMP
         description: "{{ doc('modified_timestamp') }}"
-      - name: INVOCACTION_ID
-        description: "{{ doc('invocation_id') }}"

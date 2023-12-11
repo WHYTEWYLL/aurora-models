@@ -20,7 +20,6 @@ SELECT
     tx_status,
     _log_id,
     inserted_timestamp,
-    modified_timestamp,
-    invocation_id
+    modified_timestamp
 FROM
     {{ ref('silver__logs') }}

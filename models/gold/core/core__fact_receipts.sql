@@ -25,7 +25,6 @@ SELECT
     near_receipt_hash,
     near_transaction_hash,
     inserted_timestamp,
-    modified_timestamp,
-    invocation_id
+    modified_timestamp
 FROM
     {{ ref('silver__receipts') }}

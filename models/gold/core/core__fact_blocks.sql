@@ -64,7 +64,6 @@ SELECT
         uncles
     ) AS block_header_json,
     inserted_timestamp,
-    modified_timestamp,
-    invocation_id
+    modified_timestamp
 FROM
     {{ ref('silver__blocks') }}
