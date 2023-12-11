@@ -6,6 +6,7 @@
 ) }}
 
 SELECT
+    block_id,
     block_number,
     block_timestamp,
     'mainnet' AS network,
@@ -61,6 +62,9 @@ SELECT
         transactions_root,
         'uncles',
         uncles
-    ) AS block_header_json
+    ) AS block_header_json,
+    inserted_timestamp,
+    modified_timestamp,
+    invocation_id
 FROM
     {{ ref('silver__blocks') }}

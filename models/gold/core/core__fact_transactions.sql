@@ -6,6 +6,7 @@
 ) }}
 
 SELECT
+    tx_id,
     block_number,
     block_hash,
     block_timestamp,
