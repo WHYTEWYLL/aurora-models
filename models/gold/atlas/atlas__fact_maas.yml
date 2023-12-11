@@ -6,29 +6,29 @@ models:
       Monthly Active Accounts (wallets) on Aurora, calculated over a rolling 30 day window. An active account, here, is defined as the signing of at least one transaction.
 
     columns:
-      - name: fact_maas_id
+      - name: FACT_MAAS_ID
         description: "{{ doc('id') }}"
         tests:
           - not_null
           - unique
 
-      - name: day
+      - name: DAY
         description: "{{ doc('active_day') }}"
         tests:
           - not_null
           - unique
 
-      - name: maa
+      - name: MAA
         description: "{{ doc('maa')}}"
         tests:
           - not_null
 
-      - name: inserted_timestamp
+      - name: INSERTED_TIMESTAMP
         description: "{{ doc('inserted_timestamp') }}"
         tests:
           - not_null
 
-      - name: modified_timestamp
+      - name: MODIFIED_TIMESTAMP
         description: "{{ doc('modified_timestamp') }}"
         tests:
           - not_null
