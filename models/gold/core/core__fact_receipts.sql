@@ -6,7 +6,10 @@
 ) }}
 
 SELECT
-    receipts_id,
+    COALESCE (
+        receipts_id,
+        {{ dbt_utils.generate_surrogate_key(['BLOCK_NUMBER', 'TX_HASH']) }}
+    ) AS receipts_id,
     block_number,
     block_timestamp,
     block_hash,
@@ -24,7 +27,13 @@ SELECT
     TYPE,
     near_receipt_hash,
     near_transaction_hash,
-    inserted_timestamp,
-    modified_timestamp
+    COALESCE (
+        inserted_timestamp,
+        _inserted_timestamp
+    ) AS inserted_timestamp,
+    COALESCE (
+        modified_timestamp,
+        _inserted_timestamp
+    ) AS modified_timestamp
 FROM
     {{ ref('silver__receipts') }}

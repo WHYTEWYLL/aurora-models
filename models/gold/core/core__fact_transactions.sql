@@ -6,7 +6,10 @@
 ) }}
 
 SELECT
-    tx_id,
+    COALESCE (
+        tx_id,
+        {{ dbt_utils.generate_surrogate_key(['BLOCK_NUMBER', 'TX_HASH', 'POSITION']) }}
+    ) AS tx_id,
     block_number,
     block_hash,
     block_timestamp,
@@ -30,7 +33,13 @@ SELECT
     s,
     v,
     tx_type,
-    inserted_timestamp,
-    modified_timestamp
+    COALESCE (
+        inserted_timestamp,
+        _inserted_timestamp
+    ) AS inserted_timestamp,
+    COALESCE (
+        modified_timestamp,
+        _inserted_timestamp
+    ) AS modified_timestamp
 FROM
     {{ ref('silver__transactions') }}
