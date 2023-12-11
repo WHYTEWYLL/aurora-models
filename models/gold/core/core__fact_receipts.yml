@@ -4,6 +4,8 @@ models:
     description: '{{ doc("receipts_table_doc") }}'
 
     columns:
+      - name: RECEIPTS_ID
+        description: '{{ doc("pk_id") }}'
       - name: BLOCK_NUMBER
         description: '{{ doc("block_number") }}'
       - name: BLOCK_TIMESTAMP
@@ -36,3 +38,7 @@ models:
         description: "Receipt hash on NEAR blockchain"
       - name: NEAR_TRANSACTION_HASH
         description: "Transaction hash on NEAR blockchain"
+      - name: INSERTED_TIMESTAMP
+        description: "{{ doc('inserted_timestamp') }}"
+      - name: MODIFIED_TIMESTAMP
+        description: "{{ doc('modified_timestamp') }}"

@@ -6,6 +6,7 @@
 ) }}
 
 SELECT
+    tx_id,
     block_number,
     block_hash,
     block_timestamp,
@@ -28,6 +29,8 @@ SELECT
     r,
     s,
     v,
-    tx_type
+    tx_type,
+    inserted_timestamp,
+    modified_timestamp
 FROM
     {{ ref('silver__transactions') }}

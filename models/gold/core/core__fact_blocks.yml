@@ -4,6 +4,8 @@ models:
     description: '{{ doc("blocks_table_doc") }}'
 
     columns:
+      - name: BLOCK_ID
+        description: '{{ doc("pk_id") }}'
       - name: BLOCK_NUMBER
         description: '{{ doc("block_number") }}'
       - name: BLOCK_TIMESTAMP
@@ -42,3 +44,7 @@ models:
         description: '{{ doc("uncle_blocks") }}'
       - name: BLOCK_HEADER_JSON
         description: '{{ doc("block_header_json") }}'
+      - name: INSERTED_TIMESTAMP
+        description: "{{ doc('inserted_timestamp') }}"
+      - name: MODIFIED_TIMESTAMP
+        description: "{{ doc('modified_timestamp') }}"

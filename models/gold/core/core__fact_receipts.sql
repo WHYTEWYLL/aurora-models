@@ -6,6 +6,7 @@
 ) }}
 
 SELECT
+    receipts_id,
     block_number,
     block_timestamp,
     block_hash,
@@ -22,6 +23,8 @@ SELECT
     POSITION,
     TYPE,
     near_receipt_hash,
-    near_transaction_hash
+    near_transaction_hash,
+    inserted_timestamp,
+    modified_timestamp
 FROM
     {{ ref('silver__receipts') }}
