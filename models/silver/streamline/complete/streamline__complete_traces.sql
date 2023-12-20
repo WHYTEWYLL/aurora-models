@@ -16,9 +16,10 @@ FROM
 {% if is_incremental() %}
 {{ ref('bronze__streamline_traces') }}
 WHERE
-    _inserted_timestamp >= (
+    _inserted_timestamp >= 
+    (
         SELECT
-            MAX(_inserted_timestamp) _inserted_timestamp
+            ifnull(MAX(_inserted_timestamp),'1900-01-01' :: timestamp_ntz ) _inserted_timestamp
         FROM
             {{ this }}
     )

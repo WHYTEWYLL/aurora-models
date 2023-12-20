@@ -17,7 +17,7 @@ WITH meta AS (
         )
     SELECT
         block_number,
-        tx_hash,
+        s.value :metadata :request :params [0] :: STRING AS tx_hash,
         DATA,
         _inserted_timestamp,
         MD5(
