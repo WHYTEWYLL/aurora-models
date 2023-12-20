@@ -18,6 +18,7 @@ sources:
       - name: blocks
       - name: transactions
       - name: tx_receipts
+      - name: traces
   - name: crosschain_silver
     database: crosschain
 
