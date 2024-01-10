@@ -1,7 +1,8 @@
 {{ config(
     materialized = 'view',
     persist_docs ={ "relation": true,
-    "columns": true }
+    "columns": true },
+    tags = ['core']
 ) }}
 
 SELECT
@@ -10,9 +11,9 @@ SELECT
     block_timestamp,
     from_address,
     to_address,
-    eth_value AS VALUE,
-    eth_value_precise_raw AS value_precise_raw,
-    eth_value_precise AS value_precise,
+    value,
+    value_precise_raw,
+    value_precise,
     gas,
     gas_used,
     input,
@@ -38,9 +39,6 @@ SELECT
     COALESCE(
         modified_timestamp,
         '2000-01-01'
-    ) AS modified_timestamp,
-    eth_value,
-    eth_value_precise_raw,
-    eth_value_precise
+    ) AS modified_timestamp
 FROM
     {{ ref('silver__traces') }}
