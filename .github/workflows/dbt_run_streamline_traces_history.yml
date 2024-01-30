@@ -4,7 +4,7 @@ run-name: dbt_run_streamline_traces_history
 on:
   workflow_dispatch:
   schedule:
-    # Run every 2 hours 
+    # Run every 2 hours
     - cron: "0 */2 * * *"
 
 env:
@@ -25,7 +25,7 @@ concurrency:
 
 jobs:
   called_workflow_template:
-    uses: FlipsideCrypto/analytics-workflow-templates/.github/workflows/dbt_run_template.yml@main
+    uses: FlipsideCrypto/analytics-workflow-templates/.github/workflows/dbt_run_template.yml@AN-4374/upgrade-dbt-1.7
     with:
       dbt_command: >
         dbt run --vars '{"STREAMLINE_INVOKE_STREAMS":True}' -m 1+models/silver/streamline/history/streamline__traces_history.sql
