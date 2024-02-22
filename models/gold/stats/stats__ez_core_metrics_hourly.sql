@@ -29,7 +29,7 @@ WITH txs AS (
         LEFT JOIN {{ ref('silver__hourly_prices_coin_gecko') }}
         p
         ON s.block_timestamp_hour = p.recorded_hour
-        AND p.id = 'sei-network'
+        AND p.id = 'aurora'
 )
 SELECT
     A.block_timestamp_hour,

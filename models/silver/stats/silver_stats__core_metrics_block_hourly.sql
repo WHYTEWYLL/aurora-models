@@ -11,8 +11,12 @@ SELECT
         'hour',
         block_timestamp
     ) AS block_timestamp_hour,
-    MIN(block_id) AS block_number_min,
-    MAX(block_id) AS block_number_max,
+    MIN(
+        block_number
+    ) AS block_number_min,
+    MAX(
+        block_number
+    ) AS block_number_max,
     COUNT(
         1
     ) AS block_count,
