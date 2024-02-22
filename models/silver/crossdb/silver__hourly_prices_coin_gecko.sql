@@ -4,7 +4,7 @@
     incremental_strategy = 'merge',
     merge_exclude_columns = ["inserted_timestamp"],
     cluster_by = 'recorded_hour::DATE',
-    tags = ['noncore']
+    tags = ['core']
 ) }}
 
 SELECT
