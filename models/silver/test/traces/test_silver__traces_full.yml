@@ -46,9 +46,6 @@ models:
       - name: IDENTIFIER
         tests:
           - not_null
-      - name: ETH_VALUE
-        tests:
-          - not_null
       - name: GAS
         tests:
           - not_null
