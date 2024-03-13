@@ -35,41 +35,12 @@ concurrency:
   group: ${{ github.workflow }}
 
 jobs:
-  dbt:
-    runs-on: ubuntu-latest
-    environment:
-      name: |
-        ${{ inputs.workflow_name }}
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-          cache: "pip"
-
-      - name: install dependencies
-        run: |
-          pip install -r requirements.txt
-          dbt deps
-
-      - name: Run DBT Jobs
-        run: |
-        ${{ inputs.task_action }}
-        
-      - name: Store logs
-        uses: actions/upload-artifact@v3
-        with:
-          name: dbt-logs
-          path: |
-            logs
-            target
-            
-jobs:
   called_workflow_template:
     uses: FlipsideCrypto/analytics-workflow-templates/.github/workflows/dbt_alter_gha_tasks.yml@AN-4374/upgrade-dbt-1.7
     with:
       workflow_name: |
-        
-      task_action: 
+        ${{ inputs.workflow_name }}
+      task_action: |
+        ${{ inputs.task_action }}
       environment: workflow_prod
     secrets: inherit
