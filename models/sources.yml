@@ -18,6 +18,7 @@ sources:
       - name: blocks
       - name: transactions
       - name: tx_receipts
+      - name: traces
 
   - name: silver_crosschain
     database: "{{ 'crosschain' if target.database == 'FLOW' else 'crosschain_dev' }}"
@@ -30,3 +31,10 @@ sources:
       - name: complete_native_asset_metadata
       - name: complete_native_prices
       - name: number_sequence
+      - name: hourly_prices_coin_gecko
+
+  - name: github_actions
+    database: aurora
+    schema: github_actions
+    tables:
+      - name: workflows

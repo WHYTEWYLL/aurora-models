@@ -1,10 +1,9 @@
 version: 2
 models:
   - name: price__ez_asset_metadata
+    description: '{{ doc("prices_ez_asset_metadata_table_doc") }}'
 
     columns:
-      - name: ID
-        description: '{{ doc("prices_id_deprecation")}}'
       - name: ASSET_ID
         description: '{{ doc("prices_asset_id") }}'
       - name: NAME
@@ -19,10 +18,8 @@ models:
         description: '{{ doc("prices_decimals") }}'
       - name: IS_NATIVE
         description: '{{ doc("prices_is_native") }}'
-      - name: IS_DEPRECATED
-        description: '{{ doc("prices_is_deprecated") }}'
       - name: EZ_ASSET_METADATA_ID
-        description: '{{ doc("pk") }}'
+        description: '{{ doc("pk_id") }}'
       - name: INSERTED_TIMESTAMP
         description: '{{ doc("inserted_timestamp") }}'
       - name: MODIFIED_TIMESTAMP

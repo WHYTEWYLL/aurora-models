@@ -1,12 +1,16 @@
 -- depends_on: {{ ref('bronze__streamline_blocks') }}
 {{ config(
     materialized = 'incremental',
+    incremental_strategy = 'delete+insert',
     unique_key = "block_number",
     cluster_by = "block_timestamp::date",
     tags = ['core']
 ) }}
 
 SELECT
+    {{ dbt_utils.generate_surrogate_key(
+        ['block_number']
+    ) }} AS block_id,
     block_number,
     utils.udf_hex_to_int(
         DATA :result :timestamp :: STRING
@@ -46,7 +50,10 @@ SELECT
     DATA :result :stateRoot :: STRING AS state_root,
     DATA :result :transactionsRoot :: STRING AS transactions_root,
     _partition_by_block_id,
-    _inserted_timestamp
+    _inserted_timestamp,
+    SYSDATE() AS inserted_timestamp,
+    SYSDATE() AS modified_timestamp,
+    '{{ invocation_id }}' AS _invocation_id
 FROM
 
 {% if is_incremental() %}

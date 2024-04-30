@@ -25,10 +25,10 @@ models:
         tests:
           - not_null
       - name: PRICE
-        tests:
+        tests: 
           - not_null
       - name: IS_IMPUTED
-        tests:
+        tests: 
           - not_null
       - name: _INSERTED_TIMESTAMP
         tests:

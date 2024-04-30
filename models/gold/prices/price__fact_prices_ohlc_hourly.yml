@@ -17,7 +17,7 @@ models:
       - name: CLOSE
         description: '{{ doc("prices_close") }}'
       - name: FACT_PRICES_OHLC_HOURLY_ID
-        description: '{{ doc("pk") }}'
+        description: '{{ doc("pk_id") }}'
       - name: INSERTED_TIMESTAMP
         description: '{{ doc("inserted_timestamp") }}'
       - name: MODIFIED_TIMESTAMP

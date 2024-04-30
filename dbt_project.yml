@@ -5,7 +5,7 @@ name: "aurora_models"
 version: "1.0.0"
 config-version: 2
 
-require-dbt-version: ">=1.4.0"
+require-dbt-version: ">=1.7.0"
 
 # This setting configures which "profile" dbt uses for this project.
 profile: "aurora"
@@ -48,6 +48,7 @@ vars:
   UPDATE_SNOWFLAKE_TAGS: True
   WAIT: 0
   OBSERV_FULL_TEST: False
+  START_GHA_TASKS: False
 
 tests:
   +store_failures: true # all tests
@@ -67,5 +68,5 @@ dispatch:
       - dbt
 
 query-comment:
-  comment: '{{ dbt_snowflake_query_tags.get_query_comment(node) }}'
+  comment: "{{ dbt_snowflake_query_tags.get_query_comment(node) }}"
   append: true # Snowflake removes prefixed comments.

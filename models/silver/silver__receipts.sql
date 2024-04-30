@@ -92,6 +92,9 @@ FINAL AS (
 
 SELECT
     {{ dbt_utils.generate_surrogate_key(['BLOCK_NUMBER', 'TX_HASH']) }} AS receipts_id,
+    SYSDATE() AS inserted_timestamp,
+    SYSDATE() AS modified_timestamp,
+    '{{ invocation_id }}' AS _invocation_id,    
     *
 FROM
     FINAL

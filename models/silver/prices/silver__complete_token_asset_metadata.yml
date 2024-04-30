@@ -6,7 +6,7 @@ models:
           combination_of_columns:
             - TOKEN_ADDRESS
             - BLOCKCHAIN
-
+          
     columns:
       - name: PROVIDER
         tests:
