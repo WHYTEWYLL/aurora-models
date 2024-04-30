@@ -61,7 +61,7 @@ block_range AS (
         _id AS block_number
     FROM
         {{ source(
-            'crosschain_silver',
+            'silver_crosschain',
             'number_sequence'
         ) }}
     WHERE
@@ -106,7 +106,7 @@ block_gen AS (
         _id AS block_number
     FROM
         {{ source(
-            'crosschain_silver',
+            'silver_crosschain',
             'number_sequence'
         ) }}
     WHERE
