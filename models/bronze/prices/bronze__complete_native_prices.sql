@@ -25,6 +25,5 @@ FROM
         'complete_native_prices'
     ) }}
 WHERE
-    blockchain = ''
-    AND symbol = ''
---pending to be added
+    blockchain = 'aurora'
+    AND symbol = 'aurora'

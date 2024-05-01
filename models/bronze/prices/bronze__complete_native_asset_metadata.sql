@@ -23,5 +23,4 @@ FROM
     ) }}
 WHERE
     blockchain = 'aurora'
-    AND symbol = ''
---pending to be added
+    AND symbol = 'aurora'
