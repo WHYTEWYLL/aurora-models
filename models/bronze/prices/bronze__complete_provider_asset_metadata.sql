@@ -22,4 +22,4 @@ FROM
         'complete_provider_asset_metadata'
     ) }}
 WHERE
-    platform = 'aurora'
+    lower(platform) = 'aurora'
